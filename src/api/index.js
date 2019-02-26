@@ -1,5 +1,7 @@
 import Vue from "vue"
 // 引入axios
+// 可以将上面的axios配置抽离出去,将配置包装成对象暴露出来，遍历后添加到axios的默认配置上面
+import config from "./config"
 import axios from "axios"
 import router from "../router";
 // 将axios挂载到Vue的原型上
@@ -10,11 +12,7 @@ Vue.prototype.$http=axios
 // //  withCredentials: false, // 默认的
 // // 注册提交验证码时需要配置
 // axios.defaults.withCredentials=true
-
-// 可以将上面的axios配置抽离出去,将配置包装成对象暴露出来，遍历后添加到axios的默认配置上面
-import config from "./config"
-
-for(let k in config){
+for(const k in config){
     axios.defaults[k]=config[k]
 }
 
@@ -43,7 +41,9 @@ axios.interceptors.response.use(function (response) {
         message:error.response.data.errMsg
     })
     // err.response.data.status=401是token出错
-    if(error.response.data.status=="401"){
+    console.log(typeof error.response.data.status,error.response.data.status)
+    if(error.response.data.status == 401){
+        console.log("响应拦截器")
         // 先删除token
         localStorage.removeItem("token")
         localStorage.removeItem("userInfo")

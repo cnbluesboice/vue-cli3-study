@@ -23,65 +23,67 @@
               <el-menu-item index="1-3">修改密码</el-menu-item>
             </el-menu-item-group>
           </el-submenu>
-          
         </el-menu>
       </el-col>
       <el-col :span="21">
-          <div class="header">
-              <span>用户名：{{ userInfo.username }}</span>
-              <el-button type="danger" @click="signOut">退出登录</el-button>
-          </div>
+        <div class="header">
+          <span>用户名：{{ userInfo.username }}</span>
+          <el-button type="danger" @click="signOut">退出登录</el-button>
+        </div>
         <router-view></router-view>
       </el-col>
     </el-row>
-    
   </div>
 </template>
 <script>
 export default {
-    data(){
-        return {
-          userInfo:JSON.parse(localStorage.getItem("userInfo") || "{}")
-        }
+  data() {
+    return {
+      userInfo: JSON.parse(localStorage.getItem("userInfo") || "{}")
+    };
+  },
+  methods: {
+    handleOpen(index, indexPath) {
+      // console.log(index,indexPath,"open")
     },
-    methods:{
-        handleOpen(index,indexPath){
-            // console.log(index,indexPath,"open")
-        },
-        handleClose(index,indexPath){
-            // console.log(index,indexPath,"close")
-        },
-        handleSelect(index,indexPath){
-            console.log(index,indexPath,"select")
-            console.log(this.$router)
-            switch(index){
-                case "1-1":
-                    this.$router.push("/home/allRecevier");
-                    break;
-                // case "1-2": this.$router.push("/home/wuhanRecevier")
-                // break
-            }
-        },
-        // 退出登录
-        signOut(){
-          localStorage.removeItem("token")
-          localStorage.removeItem("userInfo")
-          this.$router.push("/")
-        }
+    handleClose(index, indexPath) {
+      // console.log(index,indexPath,"close")
+    },
+    handleSelect(index, indexPath) {
+      console.log(index, indexPath, "select");
+      console.log(this.$router);
+      switch (index) {
+        case "1-1":
+          this.$router.push("/home/allRecevier");
+          break;
+        // case "1-2": this.$router.push("/home/wuhanRecevier")
+        // break
+      }
+    },
+    // 退出登录
+    signOut() {
+      localStorage.removeItem("token");
+      localStorage.removeItem("userInfo");
+      this.$message({
+        type: "success",
+        message: "恭喜您退出成功!"
+      });
+      this.$router.push("/");
     }
-}
+  }
+};
 </script>
 <style lang="less" scoped>
-.home-container{
-  .el-menu{
+.home-container {
+  .el-menu {
     border: none;
   }
-    .header{
-        height: 50px;
-        padding: 0 30px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+  .header {
+    height: 50px;
+    padding: 0 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 </style>
